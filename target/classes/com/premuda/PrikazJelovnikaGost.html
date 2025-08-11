@@ -1,0 +1,55 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Prikaz cijelog jelovnika</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div wicket:id="headerPanel"></div>
+
+    <!--<div class="menu-links">
+        <a wicket:id="predjeloLink">PREDJELA</a>
+        <a wicket:id="glavnoJeloLink">GLAVNA JELA</a>
+        <a wicket:id="desertLink">DESERTI</a>
+        <a wicket:id="piceLink">PIĆA</a>
+    </div>-->
+    <div class="menu-images">
+        <a wicket:id="predjeloLink" class="menu-card">
+            <img wicket:id="predjeloImg" alt="Restoran slika"/>
+            <div class="menu-title">PREDJELA</div>
+        </a>
+        <a wicket:id="glavnoJeloLink" class="menu-card">
+            <img wicket:id="glavnoJeloImg" alt="Restoran slika"/>
+            <div class="menu-title">GLAVNA JELA</div>
+        </a>
+        <a wicket:id="desertLink" class="menu-card">
+            <img wicket:id="desertImg" alt="Restoran slika"/>
+            <div class="menu-title">DESERTI</div>
+        </a>
+        <a wicket:id="piceLink" class="menu-card">
+            <img wicket:id="piceImg" alt="Restoran slika"/>
+            <div class="menu-title">PIĆA</div>
+        </a>
+    </div>
+
+    <div class="main-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Jedinica</th>
+                    <th>Cijena</th>
+                </tr>
+            </thead>
+            <tbody wicket:id="jelovnik">
+                <tr>
+                    <td wicket:id="naziv"></td>
+                    <td wicket:id="unit"></td>
+                    <td wicket:id="cijena"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

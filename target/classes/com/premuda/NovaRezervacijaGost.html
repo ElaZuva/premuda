@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Rezervacija</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img wicket:id="pocetna" class="top-image" alt="pocetna">
+    <div wicket:id="headerPanel"></div>
+    <h2>NOVA REZERVACIJA</h2>
+    <div wicket:id="feedback"></div>
+
+    <!-- Forma za novu rezervaciju -->
+    <form wicket:id="novaRezervacija">
+        <div>
+            <label for="imeRezervacije">Ime rezervacije:</label>
+            <input type="text" wicket:id="imeRezervacije" required="required">
+        </div>
+
+        <div>
+            <label for="brojLjudi">Broj ljudi:</label>
+            <input type="text" wicket:id="brojLjudi" required="required">
+        </div>
+
+        <div>
+            <label for="datum">Datum:</label>
+            <input type="text" wicket:id="datum" required="required">
+        </div>
+
+        <div>
+            <label for="vrijeme">Vrijeme:</label>
+            <select wicket:id="vrijeme" required="required">
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" wicket:id="rezerviraj">Rezerviraj</button>
+        </div>
+    </form>
+</body>
+</html>

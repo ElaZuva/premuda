@@ -1,0 +1,51 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Prikaz Jelovnika</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div wicket:id="headerPanel"></div>
+    <h2>Detalji rezervacije</h2>
+    <div>
+        <span>Ime rezervacije:</span> <span wicket:id="imeRezervacije"></span> <br/>
+        <span>Broj ljudi:</span> <span wicket:id="brojLjudi"></span> <br/>
+
+    </div>
+        <div class = "menu-links">
+        <a wicket:id="predjeloLink">Predjelo</a> |
+        <a wicket:id="glavnoJeloLink">Glavno jelo</a> |
+        <a wicket:id="desertLink">Desert</a> |
+        <a wicket:id="piceLink">Piće</a>
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Cijena</th>
+                    <th>Količina</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody wicket:id="jelovnik">
+                <tr>
+                    <td wicket:id="naziv"></td>
+                    <td wicket:id="cijena"></td>
+                    <td wicket:id="kolicina"></td>
+                    <td>
+                        <button wicket:id="smanjiKolicinu">-</button>
+                        <button wicket:id="povecajKolicinu">+</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <form wicket:id="form">
+            <button type="submit" wicket:id="zavrsiNarudzbu">Završi narudžbu</button>
+        </form>
+    </div>
+</body>
+</html>

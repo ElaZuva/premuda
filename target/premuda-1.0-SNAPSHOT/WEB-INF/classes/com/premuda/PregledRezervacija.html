@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pregled Rezervacija</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div wicket:id="headerPanel"></div>
+    <div class="menu-links">
+        <a wicket:id="novaRezervacija">Dodaj novu rezervaciju</a>
+        <a wicket:id="danas">Danas</a>
+        <a wicket:id="sutra">Sutra</a>
+        <a wicket:id="prosle">Prošle rezervacije</a>
+        <a wicket:id="buduce">Buduće rezervacije</a>
+
+        <a wicket:id="sve">Sve rezervacije</a>
+    </div>
+    <h2>Pregled Rezervacija</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ime Rezervacije</th>
+                <th>Ime Stola</th>
+                <th>Broj Ljudi</th>
+                <th>Pozicija</th>
+                <th>Datum</th>
+                <th>Vrijeme</th>
+                <th>Link</th>
+                <th>Link</th>
+
+            </tr>
+        </thead>
+        <tbody wicket:id="rezervacije">
+            <tr>
+                <td wicket:id="imeRezervacije"></td>
+                <td wicket:id="imeStola"></td>
+                <td wicket:id="brojLjudi"></td>
+                <td wicket:id="pozicija"></td>
+                <td wicket:id="datum"></td>
+                <td wicket:id="vrijeme"></td>
+                <td>
+                    <a wicket:id="dodajNarudzbu">Dodaj Narudžbu</a>
+                </td>
+                <td>
+                    <a wicket:id="prikaziNarudzbu">Prikaži Narudžbu</a>
+                </td>
+                <td>
+                    <a wicket:id="ukloniNarudzbu">Ukloni Narudžbu</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

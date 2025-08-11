@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prikaz Narudzbe</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div wicket:id="headerPanel"></div>
+
+    <h2>Detalji rezervacije</h2>
+    <div class="form-container">
+        <span>Ime rezervacije:</span> <span wicket:id="imeRezervacije"></span> <br/>
+        <span>Broj ljudi:</span> <span wicket:id="brojLjudi"></span> <br/>
+        <span>Datum:</span> <span wicket:id="datum"></span> <br/>
+        <span>Vrijeme:</span> <span wicket:id="vrijeme"></span>
+        <a wicket:id="dodajNarudzbu">Dodaj novo jelo</a>
+    </div>
+
+    <h2>Stavke narudžbe</h2>
+    <table>
+        <tr>
+            <th>Jelo</th>
+            <th>Količina</th>
+            <th>Cijena (kom)</th>
+            <th>Ukupno</th>
+            <th></th>
+        </tr>
+        <tbody wicket:id="narudzbeList">
+            <tr>
+                <td wicket:id="nazivJela"></td>
+                <td>
+                    <button wicket:id="smanjiKolicinu">-</button>
+                    <span wicket:id="kolicina"></span>
+                    <button wicket:id="povecajKolicinu">+</button>
+                </td>
+                
+                <td wicket:id="cijena"></td>
+                <td wicket:id="ukupno"></td>
+                <td>
+                    <form wicket:id="promijeniKolicinuForm">
+                        <button wicket:id="submitKolicina">Spremi</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <span>Ukupno:</span> <span wicket:id="cijenaNarudzbe"></span>
+
+</body>
+</html>

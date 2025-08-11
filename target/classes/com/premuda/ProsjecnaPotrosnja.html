@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prosječna potrošnja sastojaka</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div wicket:id="headerPanel"></div>
+
+<h1>Prosječna potrošnja sastojaka</h1>
+
+<form wicket:id="forma">
+    <label>Datum:</label>
+    <input type="text" wicket:id="datum"/>
+    <label>Broj dana:</label>
+    <input type="text" wicket:id="brojDana"/>
+    <input type="submit" value="Prikaži"/>
+</form>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Sastojak</th>
+            <th>Prosjek</th>
+            <th>Trenutno stanje</th>
+            <th>Za naručiti</th>
+        </tr>
+    </thead>
+    <tbody wicket:id="rezultat">
+        <tr>
+            <td><span wicket:id="naziv"></span></td>
+            <td><span wicket:id="prosjek"></span></td>
+            <td><span wicket:id="stanje"></span></td>
+            <td><span wicket:id="razlika"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

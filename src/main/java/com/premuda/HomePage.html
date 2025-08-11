@@ -1,0 +1,89 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Restoran Masarine</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+</head>
+<body>
+    <!---<div wicket:id="headerPanelPocetni"></div>--->
+    <img wicket:id="pocetna" class="top-image" alt="pocetna">
+    <a wicket:id="rezervacijaLink" class="image-button">REZERVIRAJTE STOL</a>
+    <a href="#dobrodosliNaslov">
+        <img wicket:id="strelica" alt="Strelica prema dolje" class="scroll-arrow-img" />
+    </a>
+
+        <h2 wicket:id="dobrodosli" class = "dobrodosliNaslov" id="dobrodosliNaslov"></h2>
+
+    <div class="section-container">
+        <div class="left-column-text">
+            <h3>INFORMACIJE</h3>
+            <p>
+                Restoran Masarine otvara početkom srpnja i radi do kraja rujna. 
+            </p>
+            <br>
+            <h3>RADNO VRIJEME</h3>
+            <p>
+                PON - NED: 18:00 - 23:00
+                <br>
+                *Posljednja narudžba hrane u 21:30
+            </p>
+            <br>
+            <h3>LOKACIJA</h3>
+            <p>
+                Uvala Krijal
+                <br>
+                Otok Premuda
+                
+            </p>
+        </div>
+        <div class="right-column">
+            <img wicket:id="jelovnik" alt="Restoran slika" class="main-image" />
+        </div>
+    </div>
+    <div class="section-container">
+        <div class="left-column">
+            <img wicket:id="informacije" alt="Restoran slika" class="main-image" />
+            
+        </div>
+        <div class="right-column-text">
+            <p>
+                <h3>JELOVNIK</h3>
+            <p>
+                Pogledajte naš jelovnik.
+            </p>
+            <br>
+            <a wicket:id="jelovnikLink" class="HomePageLink">JELOVNIK</a>
+            </p>
+        </div>
+    
+    </div>
+    <div class="section-container">
+        <div class="left-column-text">
+        
+             
+            <h3>REZERVACIJE</h3>
+            <p>
+                Za rezervacje od više od 10 ljudi ili ukoliko želite naručiti peku, molimo da nas nazovete minimalno 4 sata prije željenog vremena rezervacije.
+
+            </p>
+            <h3>KONTAKT</h3>
+            <p>
+                mob: +385 11 111 111
+            <br>
+                tel: +385 23 376 625
+            </p>
+            <br>
+            <a wicket:id="rezervacijaLinkDva" class="HomePageLink">REZERVIRAJTE STOL</a>
+            
+        </div>
+        <div class="right-column">
+            <img wicket:id="hobotnica" alt="Restoran slika" class="main-image" />
+        </div>
+    </div>
+</body>
+</html>

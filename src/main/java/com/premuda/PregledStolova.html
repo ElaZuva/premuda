@@ -1,0 +1,32 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Pregled Stolova</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div wicket:id="headerPanel"></div>
+
+<h1>Popis Stolova</h1>
+<a wicket:id="dodajStol">Dodaj novi stol</a>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Ime Stola</th>
+            <th>Broj Ljudi</th>
+            <th>Pozicija</th>
+
+
+        </tr>
+    </thead>
+    <tbody wicket:id="stolovi">
+        <tr>
+            <td wicket:id="imeStola"></td>
+            <td wicket:id="brojLjudi"></td>
+            <td wicket:id="pozicija"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

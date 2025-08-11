@@ -1,0 +1,33 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Dodaj Novi Sastojak</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div wicket:id="headerPanel"></div>
+
+<h1>Dodaj Novi Sastojak</h1>
+
+<form wicket:id="dodajSastojakForm">
+    <div>
+        <label for="imeSastojka">Ime sastojka:</label>
+        <input type="text" wicket:id="imeSastojka" id="imeSastojka" required="required"/>
+    </div>
+    <div>
+        <label for="unit">Unit:</label>
+        <input type="text" wicket:id="unit" id="unit"/>
+    </div>
+    <div>
+        <label for="stanje">Stanje:</label>
+        <input type="text" wicket:id="stanje" id="stanje" required="required"/>
+    </div>
+
+   
+    <div>
+        <button type="submit" wicket:id="submit">Dodaj sastojak</button>
+    </div>
+</form>
+
+</body>
+</html>

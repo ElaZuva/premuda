@@ -1,0 +1,40 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Dodaj Novi Stol</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div wicket:id="headerPanel"></div>
+
+<h1>Dodaj Novi Stol</h1>
+
+<form wicket:id="dodajStolForm">
+    <div>
+        <label for="imeStola">Ime Stola:</label>
+        <input type="text" wicket:id="imeStola" id="imeStola" required="required"/>
+    </div>
+    <div>
+        <label for="brojLjudi">Broj Ljudi:</label>
+        <input type="text" wicket:id="brojLjudi" id="brojLjudi" required="required"/>
+    </div>
+    <div>
+        <label>Pozicija:</label>
+        <div wicket:id="pozicija">
+            <div>
+                <input type="radio" wicket:id="unutra" id="unutra"/>
+                <label for="unutra">Unutra</label>
+            </div>
+            <div>
+                <input type="radio" wicket:id="vani" id="vani"/>
+                <label for="vani">Vani</label>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="submit" wicket:id="submit">Dodaj Stol</button>
+    </div>
+</form>
+
+</body>
+</html>

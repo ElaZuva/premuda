@@ -1,0 +1,41 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Dodaj Novo Jelo</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div wicket:id="headerPanel"></div>
+
+<h1>Dodaj Novo Jelo</h1>
+
+<form wicket:id="dodajJeloForm">
+    <div>
+        <label for="imeArtikla">Ime artikla:</label>
+        <input type="text" wicket:id="imeArtikla" id="imeArtikla" required="required"/>
+    </div>
+    <div>
+        <label for="kategorija">Kategorija:</label>
+        <input type="text" wicket:id="kategorija" id="kategorija" required="required"/>
+    </div>
+    <div>
+        <label for="potkategorija">Potkategorija:</label>
+        <input type="text" wicket:id="potkategorija" id="potkategorija" required="required"/>
+    </div>
+    <div>
+        <label for="unit">Unit:</label>
+        <input type="text" wicket:id="unit" id="unit"/>
+    </div>
+    <div>
+        <label for="cijena">Cijena:</label>
+        <input type="text" wicket:id="cijena" id="cijena" required="required"/>
+    </div>
+
+   
+    <div>
+        <button type="submit" wicket:id="submit">Dodaj jelo</button>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Broj rezervacija po danu u tjednu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div wicket:id="headerPanel"></div>
+    <h1>Broj rezervacija po danu u tjednu</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Dan u tjednu</th>
+                <th>Broj rezervacija</th>
+            </tr>
+        </thead>
+        <tbody wicket:id="rowsRezervacije">
+            <tr>
+                <td wicket:id="dayRezervacije"></td>
+                <td wicket:id="countRezervacije"></td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Dan u tjednu</th>
+                <th>Broj ljudi</th>
+            </tr>
+        </thead>
+        <tbody wicket:id="rowsLjudi">
+            <tr>
+                <td wicket:id="dayLjudi"></td>
+                <td wicket:id="countLjudi"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

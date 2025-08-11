@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Uredi jelo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div wicket:id="headerPanel"></div>
+
+<form wicket:id="promijeniJeloForm">
+
+    <label for="imeArtikla">Ime artikla:</label>
+    <input wicket:id="imeArtikla" type="text" id="imeArtikla"/>
+    <label for="kategorija">Kategorija:</label>
+    <input wicket:id="kategorija" type="text" id="kategorija"/>
+    <label for="potkategorija">Potkategorija:</label>
+    <input wicket:id="potkategorija" type="text" id="potkategorija"/>
+    <label for="cijena">Cijena:</label>
+    <input wicket:id="cijena" type="text" id="cijena"/>
+    <label for="unit">Mjerna jedinica:</label>
+    <input wicket:id="unit" type="text" id="unit"/>
+
+    <button wicket:id="submit">Spremi</button>
+    
+</form>
+    <h2>Recept</h2>
+    <table>
+        <tr>
+            <th>Sastojak</th>
+            <th>Količina</th>
+            <th>Uredi količinu</th>
+        </tr>
+        <tbody wicket:id="receptList">
+            <tr>
+                <td wicket:id="nazivSastojkaRecept"></td>
+                <td wicket:id="kolicinaRecept"></td>
+                <td>
+                    <form wicket:id="promijeniKolicinuForm">
+                        <input wicket:id="kolicina" type="text"/>
+                        <button wicket:id="submitKolicina">Spremi</button>
+                    </form>
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Svi sastojci</h2>
+    <table>
+        <tr>
+            <th>Sastojak</th>
+            <th>Unit</th>
+            <th>Dodaj</th>
+        </tr>
+        <tbody wicket:id="sastojakList">
+            <tr>
+                <td wicket:id="nazivSastojka"></td>
+                <td wicket:id="unit"></td>
+                <td><a wicket:id="dodajSastojak">Dodaj</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

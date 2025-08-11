@@ -1,0 +1,50 @@
+
+
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <title>Prikaz cijelog jelovnika</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div wicket:id="headerPanel"></div>
+
+    <div class = "menu-links">
+        <a wicket:id="predjeloLink">Predjelo</a>
+        <a wicket:id="glavnoJeloLink">Glavno jelo</a>
+        <a wicket:id="desertLink">Desert</a>
+        <a wicket:id="piceLink">Piće</a>
+    </div>
+
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Jedinica</th>
+                    <th>Cijena</th>
+                    <th>Uredi</th>
+                    <th>Sakrij artikl</th>
+                </tr>
+            </thead>
+            <tbody wicket:id="jelovnik">
+                <tr>
+                    <td wicket:id="naziv"></td>
+                    <td wicket:id="unit"></td>
+                    <td wicket:id="cijena"></td>
+
+                    <td>
+                        <a wicket:id="urediCijenu">Uredi</a>
+                    </td>
+                    <td>
+                        <a wicket:id="sakrijArtikl">Sakrij artikl</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
