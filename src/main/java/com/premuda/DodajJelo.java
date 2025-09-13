@@ -13,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-//Dodaje novo jelo u bazu podataka
 
 public class DodajJelo extends WebPage {
 
@@ -27,7 +26,6 @@ public class DodajJelo extends WebPage {
             add(new HeaderPanelKonobar("headerPanel"));
         }
 
-        // Forma za unos novog stola
         Form<Jelovnik> form = new Form<>("dodajJeloForm", new CompoundPropertyModel<>(jelo));
 
         form.add(new TextField<>("imeArtikla").setRequired(true));

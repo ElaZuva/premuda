@@ -21,7 +21,18 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
-
+import smile.data.DataFrame;
+import smile.data.vector.DoubleVector;
+import smile.data.formula.Formula;
+import smile.regression.OLS;
+import smile.regression.LinearModel;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import java.util.Properties;
+import java.time.*;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class Service {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("BazaPU");
@@ -95,6 +106,10 @@ public class Service {
 
                 Sastojak managed = em.find(Sastojak.class, original.getId());
                 managed.setStanje(novoStanje);
+                double minStanje = minimalnoStanje(managed);
+                if (minStanje > novoStanje){
+                    posaljiMail(managed);
+                }
             }
 
             em.getTransaction().commit();
@@ -194,11 +209,15 @@ public class Service {
             Sastojak original     = recept.getSastojak();
 
             double novoStanje = original.getStanje()
-                + (brojac * kolicinaRecept);
+                - (brojac * kolicinaRecept);
             
 
             Sastojak managed = em.find(Sastojak.class, original.getId());
             managed.setStanje(novoStanje);
+            double minStanje = minimalnoStanje(managed);
+            if (novoStanje < minStanje){
+                posaljiMail(managed);
+            }
         }
 
         em.getTransaction().commit();
@@ -206,7 +225,66 @@ public class Service {
         em.close();
     }
 }
+    public void posaljiMail(Sastojak sastojak){
+        // Podešavanja SMTP servera
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true"); 
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
 
+        // Kredencijali
+        final String username = "zuvanic.ela@gmail.com";
+        final String password = "mcezhevunbxkrdqk"; 
+
+        // Kreiraj sesiju
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Kreiraj poruku
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(
+                Message.RecipientType.TO,
+                InternetAddress.parse("elazuva.math@pmf.hr")
+            );
+
+            String imeSastojka = sastojak.getImeSastojka();
+            message.setSubject("Nisko stanje sastojka");
+            message.setText("Pozdrav! Zalihe sastojka " + imeSastojka + " su pri kraju. Molimo da ga što prije naručite!");
+
+            // Slanje
+            Transport.send(message);
+
+            System.out.println("Mail poslat uspešno!");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public double minimalnoStanje(Sastojak sastojak){
+        EntityManager em = emf.createEntityManager();
+
+        try{
+            Double kolicina = em.createQuery(
+                "SELECT SUM(kolicina) FROM Recept WHERE sastojak =:sastojak", Double.class)
+                .setParameter("sastojak", sastojak)
+                .getSingleResult();
+
+            if (kolicina == null) return 0.0;
+            else return kolicina;
+        }
+         
+        finally {
+            em.close();
+        }
+
+    }
 
     //dodaje novu rezervaciju
     public void dodajRezervaciju(Rezervacija rez){
@@ -466,7 +544,128 @@ public class Service {
         }
     } 
 
+
+    private static final String[] FEATURES = {
+        "people", "hour",
+        "dow_Tue", "dow_Wed", "dow_Thu", "dow_Fri", "dow_Sat", "dow_Sun"
+    };
+
+    public Double predvidanjeZaradeRezervacija(Rezervacija r) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            List<Rezervacija> rezervacije = em.createQuery(
+                "SELECT r FROM Rezervacija r", Rezervacija.class
+            ).getResultList();
+
+
+            List<Double> people = new ArrayList<>();
+            List<Double> hour   = new ArrayList<>();
+            List<Double> tue    = new ArrayList<>();
+            List<Double> wed    = new ArrayList<>();
+            List<Double> thu    = new ArrayList<>();
+            List<Double> fri    = new ArrayList<>();
+            List<Double> sat    = new ArrayList<>();
+            List<Double> sun    = new ArrayList<>();
+            List<Double> total  = new ArrayList<>();
+
+            for (Rezervacija rez : rezervacije) {
+                int brojLjudi    = rez.getBrojLjudi();
+                LocalDate datum  = rez.getDatum();
+                LocalTime vrijeme= rez.getVrijeme();
+                long rezId       = rez.getId();
+
+                double ukupno = ukupnaCijenaRezervacije(rezId);
+                double h = vrijeme.getHour() + vrijeme.getMinute() / 60.0;
+                DayOfWeek d = datum.getDayOfWeek();
+
+                if(ukupno>0){
+                    people.add((double) brojLjudi);
+                    hour.add(h);
+                    tue.add(d == DayOfWeek.TUESDAY   ? 1.0 : 0.0);
+                    wed.add(d == DayOfWeek.WEDNESDAY ? 1.0 : 0.0);
+                    thu.add(d == DayOfWeek.THURSDAY  ? 1.0 : 0.0);
+                    fri.add(d == DayOfWeek.FRIDAY    ? 1.0 : 0.0);
+                    sat.add(d == DayOfWeek.SATURDAY  ? 1.0 : 0.0);
+                    sun.add(d == DayOfWeek.SUNDAY    ? 1.0 : 0.0);
+                    total.add(ukupno);
+                }
+                
+            }
+
+            int n = people.size();
+            double[][] train = new double[n][FEATURES.length + 1];
+            for (int i = 0; i < n; i++) {
+                train[i][0] = people.get(i);
+                train[i][1] = hour.get(i);
+                train[i][2] = tue.get(i);
+                train[i][3] = wed.get(i);
+                train[i][4] = thu.get(i);
+                train[i][5] = fri.get(i);
+                train[i][6] = sat.get(i);
+                train[i][7] = sun.get(i);
+                train[i][8] = total.get(i); 
+            }
+
+            DataFrame df = DataFrame.of(
+                train,
+                "people","hour",
+                "dow_Tue","dow_Wed","dow_Thu","dow_Fri","dow_Sat","dow_Sun",
+                "total"
+            );
+
+            Formula formula = Formula.of("total", FEATURES);
+            LinearModel model = OLS.fit(formula, df);
+
+            int ppl = r.getBrojLjudi();
+            LocalDate dat = r.getDatum();
+            LocalTime t = r.getVrijeme();
+            double hr = t.getHour() + t.getMinute() / 60.0;
+            DayOfWeek dow = dat.getDayOfWeek();
+
+            double[][] one = new double[][] {
+                {
+                    (double) ppl,
+                    hr,
+                    (dow == DayOfWeek.TUESDAY   ? 1.0 : 0.0),
+                    (dow == DayOfWeek.WEDNESDAY ? 1.0 : 0.0),
+                    (dow == DayOfWeek.THURSDAY  ? 1.0 : 0.0),
+                    (dow == DayOfWeek.FRIDAY    ? 1.0 : 0.0),
+                    (dow == DayOfWeek.SATURDAY  ? 1.0 : 0.0),
+                    (dow == DayOfWeek.SUNDAY    ? 1.0 : 0.0)
+                }
+            };
+
+            DataFrame sample = DataFrame.of(one, FEATURES);
+
+            double[] yhat = model.predict(sample);
+            return yhat[0];
+        } finally {
+            em.close();
+        }
+    }
+
     public Double PredvidanjeZarade(LocalDate d){
+        EntityManager em = emf.createEntityManager();
+        double ukupno = 0;
+        try{
+            List<Rezervacija> rezervacije = em.createQuery(
+                "SELECT r FROM Rezervacija r WHERE r.datum = :datum", Rezervacija.class
+            ).setParameter("datum", d)
+            .getResultList();
+
+            for (Rezervacija r : rezervacije){
+                double cijena = predvidanjeZaradeRezervacija(r);
+                ukupno = ukupno + cijena;
+            }
+            return ukupno;
+        }
+        finally{
+            em.close();
+        }
+    }
+
+    public Double PredvidanjeZaradeStaro(LocalDate d){
         List<Object[]> zarade = new ArrayList<>();
         Map<LocalDate, Integer> ljudi = new HashMap<>();
         
@@ -574,6 +773,24 @@ public class Service {
         return rezultat;
     }
 
+    public Double minimalniSastojci(Sastojak sastojak, int brojDana){
+        EntityManager em = emf.createEntityManager();
+
+        try{
+            Double kolicina = em.createQuery(
+                "SELECT SUM(kolicina) FROM Recept WHERE sastojak =:sastojak", Double.class)
+                .setParameter("sastojak", sastojak)
+                .getSingleResult();
+
+            if (kolicina == null) return 0.0;
+            else return kolicina * brojDana;
+        }
+         
+        finally {
+            em.close();
+        }
+
+    }
 
     public List<Object[]> prosjecnaPotrosnjaSastojka(LocalDate datum, int brojDana) {
         Map<Sastojak, Double> ukupnaPotrosnja = new HashMap<>();
@@ -627,9 +844,21 @@ public class Service {
                 double ukupno = entry.getValue();
                 int brojGodina = brojGodinaPoSastojku.getOrDefault(s, 1);
                 double prosjek = ukupno / brojGodina;
-                double razlika = prosjek - s.getStanje();
-                if(razlika>0){
-                    rezultat.add(new Object[]{s.getImeSastojka(), prosjek, s.getStanje(), razlika});
+                double minSastojka = minimalniSastojci(s, brojDana);
+                double razlika = 0;
+                
+                if (prosjek>minSastojka){
+                    razlika = prosjek - s.getStanje();
+                    if(razlika>0){
+                        rezultat.add(new Object[]{s.getImeSastojka(), prosjek, s.getStanje(), razlika});
+                    }
+                }
+                else{
+                    razlika = minSastojka - s.getStanje();
+                    if(razlika>0){
+                        rezultat.add(new Object[]{s.getImeSastojka(), minSastojka, s.getStanje(), razlika});
+                    }
+                    
                 }
 
             }
@@ -745,7 +974,7 @@ public class Service {
     public List<Rezervacija> getRezervacijeZaStol(Long stolId, LocalDate datum){
         EntityManager em = emf.createEntityManager();
 
-        return em.createQuery("SELECT r FROM Rezervacija r WHERE r.stol.id = :stolId AND r.datum = :datum", Rezervacija.class)
+        return em.createQuery("SELECT r FROM Rezervacija r WHERE r.stol.id = :stolId AND r.datum = :datum ORDER BY r.vrijeme", Rezervacija.class)
                 .setParameter("stolId", stolId)
                 .setParameter("datum", datum)
                 .getResultList();
@@ -765,71 +994,61 @@ public class Service {
     }
 
     public Stol nadiPrviStol(List<Stol> slobodni, Rezervacija rezervacija) {
-        Map<Stol, Double> funkcijaGubitka = new HashMap<>();
-        Map<Stol, Double> dodatakPrije = new HashMap<>();
-        Map<Stol, Double> dodatakPoslije = new HashMap<>();
+        Map<Stol, Double> ukSlobodno = new HashMap<>();
 
         double vrijemePocetka = getDecimalnoVrijeme(rezervacija.getVrijeme());
         double vrijemeKraja = vrijemePocetka + 2;
+        if(slobodni.size()==0) return null;
+        if(slobodni.size()==1) return slobodni.get(0);
+        if(slobodni.get(0).getBrojLjudi() == slobodni.get(1).getBrojLjudi()){
+            
+            for (Stol stol : slobodni) {
+                if(stol.getBrojLjudi() == slobodni.get(0).getBrojLjudi()){
+                    List<Rezervacija> rezervacije = getRezervacijeZaStol(stol.getId(), rezervacija.getDatum());
 
-        for (Stol stol : slobodni) {
-            List<Rezervacija> rezervacije = getRezervacijeZaStol(stol.getId(), rezervacija.getDatum());
+                    int postavljena = 0;
+                    double vrijemeIzmedu = 0;
+                    double ukupnoSlobodno = 0;
+                    double krajPrije = 17;
+                    for (Rezervacija r : rezervacije) {
+                        double vrijemeR = getDecimalnoVrijeme(r.getVrijeme());
 
-            double minPrije = Double.MAX_VALUE;
-            double minPoslije = Double.MAX_VALUE;
-            boolean postojiPrije = false;
-            boolean postojiPoslije = false;
+                        if (vrijemePocetka < vrijemeR && postavljena == 0){
+                            vrijemeIzmedu = vrijemePocetka - krajPrije;
+                            krajPrije = vrijemeKraja;
+                            postavljena = 1;
+                        }
+                        else{
+                            vrijemeIzmedu = vrijemeR - krajPrije;
+                            krajPrije = vrijemeR + 2;
+                        }
 
-            for (Rezervacija r : rezervacije) {
-                double vrijemeR = getDecimalnoVrijeme(r.getVrijeme());
-
-                if (vrijemeR < vrijemePocetka) {
-                    postojiPrije = true;
-                    double razmak = vrijemePocetka - (vrijemeR + 2); 
-                    minPrije = Math.min(minPrije, razmak);
-                } else {
-                    postojiPoslije = true;
-                    double razmak = vrijemeR - vrijemeKraja; 
-                    minPoslije = Math.min(minPoslije, razmak);
+                        if (vrijemeIzmedu >= 2){
+                            ukupnoSlobodno = ukupnoSlobodno + vrijemeIzmedu;
+                        }
+                        
+                    }
+                    vrijemeIzmedu = 24 - krajPrije;
+                    if (vrijemeIzmedu >= 2){
+                        ukupnoSlobodno = ukupnoSlobodno + vrijemeIzmedu;
+                    }
+                    ukSlobodno.put(stol, ukupnoSlobodno);
+                }
+                else{
+                    break;
                 }
             }
+        
 
-            if (!postojiPrije) {
-                minPrije = vrijemePocetka;
-            }
-            if (!postojiPoslije) {
-                minPoslije = 24 - vrijemeKraja;
-            }
-
-            double dodatak1;
-            if (jeDjeljivoSaDva(minPrije)) {
-                dodatak1 = 0.0;
-            } else if (minPrije < 1.0) {
-                dodatak1 = 0.49;
-            } else {
-                dodatak1 = 1.0 / (2 * minPrije);
-            }
-            dodatakPrije.put(stol, dodatak1);
-
-            double dodatak2;
-            if (jeDjeljivoSaDva(minPoslije)) {
-                dodatak2 = 0.0;
-            } else if (minPoslije < 1.0) {
-                dodatak2 = 0.49;
-            } else {
-                dodatak2 = 1.0 / (2 * minPoslije);
-            }
-            dodatakPoslije.put(stol, dodatak2);
-
-            double gubitak = stol.getBrojLjudi() - rezervacija.getBrojLjudi() + dodatak1 + dodatak2;
-            funkcijaGubitka.put(stol, gubitak);
-        }
-
-        return funkcijaGubitka.entrySet()
+            return ukSlobodno.entrySet()
                 .stream()
-                .min(Map.Entry.comparingByValue())
+                .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse(null);
+        }
+        else{
+            return slobodni.get(0);
+        }
     }
 
     public int dostupnoJela(Jelovnik jelo) {

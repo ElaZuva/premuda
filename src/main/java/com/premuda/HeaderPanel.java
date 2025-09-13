@@ -61,16 +61,7 @@ public class HeaderPanel extends Panel {
             }
         });
 
-        navContainer.add(new Link<Void>("Statistika") {
-            @Override
-            public void onClick() {
-                PageParameters pp = new PageParameters();
-                LocalDate danas = LocalDate.now();
-                // Prosljeđujemo datum kao string (ISO 8601 ili drugi format po želji)
-                pp.add("datum", danas.toString());
-                setResponsePage(StatistikaPage.class, pp);
-            }
-        });
+
         navContainer.add(new Link<Void>("logout") {
             @Override
             public void onClick() {

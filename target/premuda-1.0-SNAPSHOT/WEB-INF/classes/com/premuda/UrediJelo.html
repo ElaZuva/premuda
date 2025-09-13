@@ -6,14 +6,10 @@
 </head>
 <body>
 
-<!-- Header panel (naslov, navigacija, ...), 
-        povezano s "headerPanel" iz Java klase -->
 <div wicket:id="headerPanel"></div>
 
-<!-- Glavna forma, povezana s "promijeniJeloForm" iz Java klase -->
 <form wicket:id="promijeniJeloForm">
 
-    <!-- Label za cijenu, a "cijena" je povezana s TextField-om u Java klasi -->
     <label for="imeArtikla">Ime artikla:</label>
     <input wicket:id="imeArtikla" type="text" id="imeArtikla"/>
     <label for="kategorija">Kategorija:</label>
@@ -25,7 +21,6 @@
     <label for="unit">Mjerna jedinica:</label>
     <input wicket:id="unit" type="text" id="unit"/>
 
-    <!-- Gumb za submit, povezan s "submit" gumbom u Java klasi -->
     <button wicket:id="submit">Spremi</button>
     
 </form>

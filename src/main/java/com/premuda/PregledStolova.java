@@ -20,7 +20,6 @@ public class PregledStolova extends WebPage {
             add(new HeaderPanelKonobar("headerPanel"));
         }
 
-        // Link za dodavanje novog stola
         add(new Link<Void>("dodajStol") {
             @Override
             public void onClick() {
@@ -28,10 +27,8 @@ public class PregledStolova extends WebPage {
             }
         });
 
-        // Dohvat svih stolova iz baze
         List<Stol> stolovi = service.getAllStolovi();
 
-        // ListView za prikaz stolova
         ListView<Stol> stolListView = new ListView<Stol>("stolovi", stolovi) {
             @Override
             protected void populateItem(final ListItem<Stol> item) {
@@ -40,8 +37,6 @@ public class PregledStolova extends WebPage {
                 item.add(new Label("imeStola", stol.getImeStola()));
                 item.add(new Label("brojLjudi", String.valueOf(stol.getBrojLjudi())));
                 item.add(new Label("pozicija", stol.getPozicija() ? "Unutra" : "Vani"));
-
-                // Dodajemo gumb "Ukloni stol" koji briše ovaj stol iz baze
                 
             }
         };

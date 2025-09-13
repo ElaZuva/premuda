@@ -10,6 +10,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.validation.validator.RangeValidator;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -26,6 +28,7 @@ public class PrikazSastojaka extends WebPage {
         } else {
             add(new HeaderPanelKonobar("headerPanel"));
         }
+        add(new FeedbackPanel("feedback"));
 
 
         add(new Link<Void>("noviSastojak") {
@@ -45,11 +48,18 @@ public class PrikazSastojaka extends WebPage {
                 item.add(new Label("imeSastojka", sastojak.getImeSastojka()));
                 item.add(new Label("unit", sastojak.getUnit()));
                 item.add(new Label("trenutnoStanje", String.valueOf(sastojak.getStanje())));
+                item.add(new Label("minimalnoStanje", String.valueOf(service.minimalnoStanje(sastojak))));
 
-                Form<Sastojak> formKolicina = new Form<>("promijeniKolicinuForm",
-                        new CompoundPropertyModel<>(sastojak));
+                Form<Sastojak> formKolicina = new Form<>("promijeniKolicinuForm", new CompoundPropertyModel<>(sastojak));
                 item.add(formKolicina);
-                formKolicina.add(new TextField<>("stanje").setRequired(true));
+
+                // polje s validatorom koji ne dozvoljava vrijednosti manje od 0
+                TextField<Integer> stanjeField = new TextField<>("stanje", Integer.class);
+                stanjeField.setRequired(true);
+                stanjeField.add(RangeValidator.minimum(0)); 
+
+                formKolicina.add(stanjeField);
+
                 formKolicina.add(new Button("submitKolicina") {
                     @Override
                     public void onSubmit() {

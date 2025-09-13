@@ -10,14 +10,12 @@
 
     <h1>Statistika Jela</h1>
     
-    <!-- Forma za unos datuma -->
     <form wicket:id="form">
         <label for="datum">Unesite datum (format: yyyy-MM-dd):</label>
         <input type="text" wicket:id="datum" id="datum" placeholder="npr. 2025-01-27" />
         <button type="submit" wicket:id="submit">Prikaži statistiku</button>
     </form>
 
-    <!-- Prikaz rezultata -->
     <h2>Rezultat:</h2>
     <p>Broj prodanih jela na uneseni datum: <span wicket:id="danasRezultat">0</span></p>
     <p>Prosjek prodanih jela na uneseni datum zasnjih 5 godina: <span wicket:id="prosjekDanaRezultat">0</span></p>

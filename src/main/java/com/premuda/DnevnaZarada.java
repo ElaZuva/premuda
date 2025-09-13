@@ -38,13 +38,11 @@ public class DnevnaZarada extends WebPage {
                 String datumStr = datum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy."));
                 String iznosOveStr = String.format("%.2f €", iznosOve);
                 String prosjekProslihStr = String.format("%.2f €", prosjekProslih);
-                String predvidanjeStr = String.format("%.2f €", predvidanje);
                 String razlikaStr = String.format("%.2f €", razlika);
 
                 item.add(new Label("datum", datumStr));
                 item.add(new Label("prosle", prosjekProslihStr));
                 item.add(new Label("iznosOve", iznosOveStr));
-                item.add(new Label("predvidanje", predvidanjeStr));
                 Label razlikaLabel = new Label("razlika", razlikaStr);
                 String color = (razlika != null && razlika < 0) ? "red" : "green";
                 razlikaLabel.add(new AttributeModifier("style", "color:" + color));

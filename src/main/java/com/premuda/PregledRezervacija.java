@@ -174,6 +174,7 @@ public class PregledRezervacija extends WebPage {
 
                 item.add(new Label("datum", r.getDatum().format(DATE_FORMATTER)));
                 item.add(new Label("vrijeme", r.getVrijeme().format(TIME_FORMATTER)));
+                item.add(new Label("predvid", service.predvidanjeZaradeRezervacija(r)));
 
                 item.add(new Link<Void>("dodajNarudzbu") {
                     @Override public void onClick() {

@@ -140,7 +140,12 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.3.0.Final</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>jakarta.mail</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
 		<!-- JPA API -->
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
@@ -157,6 +162,13 @@
     <artifactId>javax.persistence-api</artifactId>
     <version>2.2</version>
 </dependency>
+<!-- Smile core: DataFrame, Formula, OLS, itd. -->
+<dependency>
+  <groupId>com.github.haifengl</groupId>
+  <artifactId>smile-core</artifactId>
+  <version>4.4.0</version>
+</dependency>
+
 
 		<!-- Slf4j for logging -->
 		<dependency>

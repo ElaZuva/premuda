@@ -135,6 +135,18 @@ table tr:last-child td {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
+.prijava-img {
+    position: absolute;
+    top: 5%;               
+    left: 95%;              
+    transform: translate(-50%, -50%);
+    display: block;
+    margin: 10px auto;
+    width: 120px; 
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
 .dobrodosliNaslov{
     text-align: center;

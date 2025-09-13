@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 
 public class HeaderPanelPocetni extends Panel {
     private static final long serialVersionUID = 1L;
-
+    private Service service = new Service();
     public HeaderPanelPocetni(String id) {
         super(id);
 
@@ -16,6 +16,8 @@ public class HeaderPanelPocetni extends Panel {
         navContainer.setOutputMarkupId(true);
         add(navContainer);
 
+        
+
         navContainer.add(new Link<Void>("novaRezervacija") {
             @Override
             public void onClick() {
@@ -23,12 +25,6 @@ public class HeaderPanelPocetni extends Panel {
             }
         });
 
-        navContainer.add(new Link<Void>("login") {
-            @Override
-            public void onClick() {
-                setResponsePage(Login.class);
-            }
-        });
         navContainer.add(new Link<Void>("jelovnik") {
             @Override
             public void onClick() {

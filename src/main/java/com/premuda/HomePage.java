@@ -22,7 +22,9 @@ public class HomePage extends WebPage {
         add(new BookmarkablePageLink<Void>("rezervacijaLink", NovaRezervacijaGost.class));
         add(new BookmarkablePageLink<Void>("rezervacijaLinkDva", NovaRezervacijaGost.class));
         add(new BookmarkablePageLink<Void>("jelovnikLink", PrikazJelovnikaGost.class));
-
+        BookmarkablePageLink<Void> link = new BookmarkablePageLink<>("prijavaLink", Login.class);
+        link.add(new Image("masarine", new PackageResourceReference(HomePage.class, "rak-bili.png")));
+        add(link);
 
         add(new Label("dobrodosli", "MASARINE - PREMUDA"));
     }

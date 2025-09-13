@@ -9,15 +9,18 @@
     <div wicket:id="headerPanel"></div>
     <div class="menu-links"><a wicket:id="noviSastojak">Dodaj novi sastojak</a></div>
     
+    <div wicket:id="feedback"></div>
 
     <h2>Pregled Sastojaka</h2>
     <table>
         <thead>
             <tr>
                 <th>Ime Sastojka</th>
-                <th>Unit</th>
+                <th>Jedinica</th>
                 <th>Stanje</th>
+                <th>Min</th>
                 <th>Dodaj</th>
+                <th></th>
 
             </tr>
         </thead>
@@ -26,6 +29,7 @@
                 <td wicket:id="imeSastojka"></td>
                 <td wicket:id="unit"></td>
                 <td wicket:id="trenutnoStanje"></td>
+                <td wicket:id="minimalnoStanje"></td>
                 <td>
                     <form wicket:id="promijeniKolicinuForm">
                         <input wicket:id="stanje" type="text"/>
